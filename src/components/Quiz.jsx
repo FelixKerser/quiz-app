@@ -1,34 +1,27 @@
-import { useReducer } from "react";
+import { useState } from "react";
+import questions from "../questions";
 
-const initialQuestion = {
-    questionName: '123',
-    answers: [
-        '123',
-        '123',
-        '123'
-    ]
-};
-
-function questionReducer(state, action) {
-    switch (action.type) {
-        case 'increment':
-            console.log('test');
-    }
-}
+let createInitialQuestion = (id) => ({
+    id: id,
+    questionName: questions[id].text,
+    answers: questions[id].answers
+});
 
 export default function Quiz() {
-
-    const [currentQuestion, dispatchQuestion] = useReducer(questionReducer, initialQuestion);
+    const [stepQuestion, setStepQuestion] = useState(0);
+    const initialQuestion = createInitialQuestion(stepQuestion);
 
     return (
         <div id="question">
-            <h2>123</h2>
+            <h2>{initialQuestion.questionName}</h2>
             <ul id="answers">
-                <li className="answer">
-                    <button>
-                        213
-                    </button>
-                </li>
+                {initialQuestion.answers.map((question, index) => (
+                    <li key={index} className="answer">
+                        <button>
+                            {question}
+                        </button>
+                    </li>
+                ))}
             </ul>
         </div>
     )

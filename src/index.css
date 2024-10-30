@@ -130,6 +130,7 @@ header h1 {
 #question h2 {
   font-family: 'Roboto', sans-serif;
   font-size: 1.5rem;
+  text-align: center;
   font-weight: normal;
   margin: 0.5rem 0 2.5rem 0;
   color: #c1b2dd;
@@ -235,6 +236,7 @@ header h1 {
 #summary h2 {
   font-family: 'Roboto', sans-serif;
   font-size: 3rem;
+
   text-align: center;
   margin: 0;
   text-transform: uppercase;
