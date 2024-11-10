@@ -99,6 +99,8 @@ header h1 {
 
 #question progress {
   width: 50%;
+  position: relative;
+  left: 25%;
   height: 0.5rem;
   border-radius: 24px;
   background: #9e5ef8;
