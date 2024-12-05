@@ -37,7 +37,6 @@ export default function Quiz() {
         ]
     });
     const [buttonClasses, setButtonClasses] = useState(Array(initialQuestion.answers.length).fill(''));
-
     const [answers, setAnswers] = useState([]);
 
     function turnQuestion() {
@@ -54,61 +53,44 @@ export default function Quiz() {
 
         const newAnswers = initialQuestionEffect.answers.map((answer, index) => ({
             content: answer,
-            isCorrect: index === 0,
+            isCorrect: index === 0
         }));
 
         shuffle(newAnswers);
 
         setAnswers(newAnswers);
 
-
-        console.table(newAnswers);
         setButtonClasses(Array(newAnswers.length).fill(''));
     }, [stepQuestion]);
 
 
     const answerConfirmation = useCallback(
         (isCorrect, index) => {
-            const newButtonClasses = [...buttonClasses];
-            newButtonClasses[index] = isCorrect ? 'correct' : 'wrong';
+            // Найти индекс правильного ответа
+            const correctAnswer = initialQuestion.answers[0];
+            // Создать массив классов с учётом правильного и выбранного ответа
+            const correctAnswerIndex = answers.findIndex((answer) => answer.isCorrect);
+            const newButtonClasses = initialQuestion.answers.map((question, i) => {
+                if (i === index) return isCorrect ? 'correct' : 'wrong'; // Выбранный ответ
+                if (i == correctAnswerIndex) return 'correct'; // Подсветить правильный ответ
+                return ''; // Остальные кнопки остаются без изменений
+            });
+
             setButtonClasses(newButtonClasses);
         },
-        []
+        [initialQuestion.answers]
     );
+
 
     const progress = useRef();
 
-    function answerPicked(isCorrect, index) {
+    function answerPicked(isCorrect, index, content) {
         setQuestionStatus({
             status: 'picked',
             index: index,
-            isCorrect: isCorrect
+            isCorrect: isCorrect,
+            content: content
         });
-
-        console.log(questionStatus.status)
-
-        // progress.current.classList.add('answered')
-        // useEffect(() => {
-        //     const confirmationTime = setInterval(() => {
-        //         setRemainingTime((prevTime) => {
-        //             if (prevTime <= 0) {
-        //                 progress.current.classList.remove('answered');
-        //                 clearInterval(confirmationTime);
-        //                 setRemainingTime(100);
-        //                 answerConfirmation(isCorrect, index);
-        //                 return;
-        //             }
-        //             return prevTime - .1;
-        //         });
-        //     }, 5);
-
-        //     return () => {
-        //         progress.current.classList.remove('answered');
-        //         clearInterval(confirmationTime);
-        //         setRemainingTime(100);
-        //         answerConfirmation(isCorrect, index);
-        //     }
-        // }, []);
     }
 
 
@@ -123,7 +105,7 @@ export default function Quiz() {
             <ul id="answers">
                 {answers.map((question, index) => (
                     <li key={index} className="answer">
-                        <button className={buttonClasses[index]} onClick={() => { answerPicked(question.isCorrect, index) }}>
+                        <button className={buttonClasses[index]} onClick={() => { answerPicked(question.isCorrect, index, question.content) }}>
                             {question.content}
                         </button>
                     </li>
