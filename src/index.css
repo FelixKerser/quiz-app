@@ -218,6 +218,7 @@ header h1 {
   background: linear-gradient(180deg, #a17eda 0%, #895fc4 100%);
   color: #191321;
   border-radius: 8px;
+  text-align: center;
   box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.6);
   animation: slide-in-from-bottom 0.7s ease-out;
 }
